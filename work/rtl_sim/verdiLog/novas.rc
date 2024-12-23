@@ -230,8 +230,8 @@ autoSaveSession = FALSE
 TclAutoSource = 
 cmd_enter_form = FALSE
 SyncBrowserDir = TRUE
-SignalCaseInSensitive = FALSE
 version = Verdi_T-2022.06
+SignalCaseInSensitive = FALSE
 [GlobalProp]
 ErrWindow_Font = Helvetica_M_R_12
 [Globals]
@@ -267,8 +267,8 @@ designTreeFont = *-adobe-courier-medium-r-*-*-12-*-*-*-*-*-iso8859-*
 import_filter_vhdl = *.vhd; *.vhdl; *.f
 import_default_language = Verilog
 import_filter_verilog = *.v; *.vc; *.f
+simulation_file_type = 
 PrefetchViewableAnnot = TRUE
-simulation_file_type = *.fsdb;*.vf;*.jf;*.zwd*
 [Hier]
 filterTimeout = 1500
 [ImportLiberty]
@@ -329,8 +329,6 @@ Wave_comment_string_font = -f COURIER12 -c ID_RED5
 HB_designTreeFont = *-adobe-courier-medium-r-*-*-12-*-*-*-*-*-iso8859-*
 Text_font = COURIER12
 nMemory_font = Fixed 14
-Wave_getsignal_form_font = -f COURIER12
-Text_annotFont = Helvetica_M_R_10
 [OtherEditor]
 cmd1 = "xterm -font 9x15 -fg black -bg gray -e"
 name = "vi"
@@ -375,13 +373,7 @@ saveWaveformStat = TRUE
 savePropStat = FALSE
 savePropDtl = TRUE
 [QtDialog]
-EditBusSimDialog = 2858,493,428,149
-LoadAs = 719,366,590,340
-importDesignForm = 655,259,715,574
-loadFile = 715,367,595,357
-QwWarnMsgDlg = 714,411,600,250
-QwUserAskDlg = 764,433,324,134
-unknownSave = 705,446,461,245
+QwUserAskDlg = 228,197,324,130
 [Relationship]
 hideRecursiceNode = FALSE
 [Safety]
@@ -393,11 +385,11 @@ ErrorObject = ID_GRAY5
 AnnotateSignal = TRUE
 HighlightSafetyObject = TRUE
 [Session Cache]
+2 = string (session file name)
+3 = string (session file name)
 4 = string (session file name)
 5 = string (session file name)
-1 = /home/xuemengyuan/try/cache_v1/icache_v1_1008_release/work/rtl_sim/verdiLog/novas_autosave.ses
-2 = /home/xuemengyuan/try/cache_v1/icache_v1_1008/work/rtl_sim/verdiLog/novas_autosave.ses
-3 = /home/xuemengyuan/try/cache_v1/icache/work/rtl_sim/verdiLog/novas_autosave.ses
+1 = /home/xuemengyuan/verdiLog/novas_autosave.ses
 [Simulation]
 scsPath = scsim
 scsOption = 
@@ -423,15 +415,13 @@ vcs_mixPath = simv
 vcs_mixOption = -vhdlrun "-vhpi debussy:FSDBDumpCmd"
 scs_mixPath = scsim
 scs_mixOption = -vhpi debussy:FSDBDumpCmd
+interactiveDebugging = {True, False}
+KeepBreakPoints = False
 ScsDebugAll = False
 simType = {vcssv, xl, nc, vcs, mti, mti_vlog, vhnc, scs, mixnc}
 thirdpartyIdx = -1
 iscCmdSep = FALSE
 NoAppendOption = False
-bSVTBMode = TRUE
-SimMode = TRUE
-interactiveDebugging = TRUE
-KeepBreakPoints = FALSE
 [SimulationPlus]
 xlPath = verilog
 xlOption = 
@@ -455,18 +445,16 @@ vcs_mixPath = simv
 vcs_mixOption = -vhdlrun "-vhpi debussy:FSDBDumpCmd"
 scs_mixPath = scsim
 scs_mixOption = -vhpi debussy:FSDBDumpCmd
+vcs_svPath = simv
+vcs_svOption = 
+simType = vcssv
 thirdpartyIdx = -1
+interactiveDebugging = FALSE
+KeepBreakPoints = FALSE
 iscCmdSep = FALSE
 ScsDebugAll = FALSE
 NoAppendOption = FALSE
 invokeSimPath = work
-simType = vcssv
-bSVTBMode = TRUE
-SimMode = TRUE
-interactiveDebugging = TRUE
-KeepBreakPoints = FALSE
-vcs_svPath = simv
-vcs_svOption = +v2k -a com.log +WAVE
 [SimulationPlus2]
 eventDumpUnfinish = FALSE
 [Source]
@@ -493,13 +481,11 @@ annotateFSMStateLimitNum = -1
 annotateFSMLimitNum = -1
 [SourceVHDL]
 vhSimType = ModelSim
-ohSimType = VCS
+ohSimType = VerilogXL
 [TclShell]
 nLineSize = 1024
 [Test]
 verbose_progress = FALSE
-[TestBenchBrowser]
--showUVMDynamicHierTreeWin = FALSE
 [Text]
 hdlTypeName = blue4
 hdlLibrary = blue4
@@ -583,7 +569,7 @@ pdmlMacro = ID_BLACK
 font = COURIER12
 annotFont = Helvetica_M_R_10
 [Text.1]
-viewport = 143 93 1586 951 45
+viewport = 0 0 800 578 45
 [TextPrinter]
 Orientation = Landscape
 Indicator = FALSE
@@ -667,40 +653,40 @@ Button1 = "Dump All Signals" "$fsdbDumpvars;\n"
 [VIA]
 viaLogViewerDefaultRuleOneSearchForm = "share/VIA/Apps/PredefinedRules/Misc/Onesearch_rule.rc"
 [VIA.oneSearch.preference]
-isOneSearchVisible = TRUE
 DefaultDisplayTimeUnit = "1.000000ns"
 DefaultLogTimeUnit = "1.000000ns"
+isOneSearchVisible = TRUE
 [VIA.oneSearch.preference.vgifColumnSettingRC]
 [VIA.oneSearch.preference.vgifColumnSettingRC.setting0]
 parRuleSets = ""
 [VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column0]
+name = Severity
+width = 60
+visualIndex = 1
+isHidden = TRUE
+isUserChangeColumnVisible = FALSE
+[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column1]
+name = Type
+width = 60
+visualIndex = 3
+isHidden = TRUE
+isUserChangeColumnVisible = FALSE
+[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column2]
+name = Message
+width = 2000
+visualIndex = 4
+isHidden = FALSE
+isUserChangeColumnVisible = FALSE
+[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column3]
 name = Time
 width = 60
 visualIndex = 0
 isHidden = TRUE
 isUserChangeColumnVisible = FALSE
-[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column1]
+[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column4]
 name = Code
 width = 60
 visualIndex = 2
-isHidden = TRUE
-isUserChangeColumnVisible = FALSE
-[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column2]
-name = Type
-width = 60
-visualIndex = 3
-isHidden = FALSE
-isUserChangeColumnVisible = FALSE
-[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column3]
-name = Message
-width = 60
-visualIndex = 4
-isHidden = FALSE
-isUserChangeColumnVisible = FALSE
-[VIA.oneSearch.preference.vgifColumnSettingRC.setting0.column4]
-name = Severity
-width = 60
-visualIndex = 1
 isHidden = TRUE
 isUserChangeColumnVisible = FALSE
 [Vi]
@@ -781,11 +767,7 @@ ShowDeltaTime = TRUE
 WaveExtendLastTick = TRUE
 displayMessageLabelOnly = TRUE
 AutoApplySeverityColor = TRUE
-scope_to_save_with_macro
-open_file_dir
-open_rc_file_dir
-getSignalForm = 0 0 800 479 100 30 100 30
-viewPort = 0 25 1586 300 243 65
+viewPort = 54 237 960 332 100 65
 legendBackground = -c ID_BLACK
 valueBackground = -c ID_BLACK
 curveBackground = -c ID_BLACK
@@ -925,6 +907,7 @@ displayDeltaY = FALSE
 signal_rc_abspath = TRUE
 signal_rc_no_natural_bus_range = FALSE
 save_scope_with_macro = FALSE
+scope_to_save_with_macro
 FitAnaByBusSize = FALSE
 DisplayVerticalZoomTools = FALSE
 DisplayIndicateBar = FALSE
@@ -951,10 +934,9 @@ printBasic = 1 0 0 FALSE FALSE
 printDest = -printer {}
 printSignature = {%f %h %t} {}
 curveWindow_Drag&Drop_Mode = TRUE
-RecentFile1 = "\"/home/xuemengyuan/try/cache_v1/icache_v1_1008_release/work/rtl_sim/wave.fsdb\""
-RecentFile2 = "\"/home/xuemengyuan/try/cache_v1/icache_v1_1008/work/rtl_sim/wave.fsdb\""
-RecentFile3 = "\"/home/xuemengyuan/try/cache_v1/icache/work/rtl_sim/wave.fsdb\""
 open_file_time_range = FALSE
+open_file_dir
+open_rc_file_dir
 legend_window_font = -f COURIER12 -c ID_CYAN5
 value_window_font = -f COURIER12 -c ID_CYAN5
 curve_window_font = -f COURIER12 -c ID_CYAN5
@@ -1046,7 +1028,6 @@ HvpMergeTool =
 ShowMergeMenuItem = FALSE
 fsmScoreMode = transition
 [eco]
-NameRule = 
 IsFreezeSilicon = FALSE
 cellQuantityManagement = FALSE
 ManageMode = INSTANCE_NAME
@@ -1054,6 +1035,7 @@ SpareCellsPinsManagement = TRUE
 LogCommitReport = FALSE
 InputPinStatus = 1
 OutputPinStatus = 2
+NameRule = 
 RevisedComponentColor = ID_BLUE5
 SpareCellColor = ID_RED5
 UserName = xuemengyuan
@@ -1317,7 +1299,7 @@ AddImportArgument = FALSE
 LineBreakWithScope = TRUE
 StopAfterCompileOption = -s
 [wave.0]
-viewPort = 0 25 1586 300 243 65
+viewPort = 50 214 960 332 100 65
 [wave.1]
 viewPort = 127 219 960 332 100 65
 [wave.2]

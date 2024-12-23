@@ -18,16 +18,16 @@ class test;
 
     task testcase();
         if($value$plusargs("testname=%s", testname))begin;
-           $display("testname=%s", testname);
+           $display("TEST NAME=%s", testname);
         end
         case(testname)
             "sanity":begin
-                for(int i=1; i<2; i++)begin
-                    env0.up_agent.up_seq.base_seq(10);
+                for(int i=1; i<4; i++)begin
+                    env0.up_agent.up_base_seq.base_seq(5);
                 end
             end
             "trace_sim":begin   
-                env0.up_agent.up_seq.trace_seq();
+                env0.up_agent.up_trace_seq.trace_seq();
             end
             "conflict":begin
                 //for(int i=1;i<30;i++)begin
@@ -44,7 +44,7 @@ class test;
                 end
             end
         endcase
-        #100us;
+        #10us;
         env0.final_check();
         $finish;
     endtask

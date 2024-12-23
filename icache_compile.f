@@ -1,40 +1,33 @@
-/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/toy_pack.sv
-/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/cmn_lead_one.sv
-/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/cmn_onehot2bin.sv
-/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/mem/toy_mem_model_bit.sv
-/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/icache_top.sv
-
-/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/cmn_onehot2bin2.sv
-/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/icache_req_arbiter.sv
-/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/fix_priority_arb.sv
-/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/icache_tag_array_ctrl.sv
-/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/icache_prefetch_engine.sv
-/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/icache_mshr_entry.sv
-/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/icache_mshr_file.sv
-/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/icache_data_array_ctrl.sv
-
-/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/pre_allocate.sv
-/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/vrp_arb.sv
-/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/hazard_check.sv
-/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/v_en_decode.sv
-/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/v_en_decode1.sv
-/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/cmn_real_mux_onehot.sv
-/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/arb_vrp.sv
-/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/arb_fp.sv
-/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/fifo.sv
-///data/usr/xuemy/try/cache_v1/icache_v1_1008_release/icache_adapter.sv
-///data/usr/xuemy/try/cache_v1/icache_v1_1008_release/mem/toy_itcm.sv
-///data/usr/xuemy/try/cache_v1/icache_v1_1008_release/mem/toy_imem_model.sv
+$PRJ_PATH/rtl/toy_pack.sv
+$PRJ_PATH/rtl/cmn_lead_one.sv
+$PRJ_PATH/rtl/cmn_onehot2bin.sv
+$PRJ_PATH/rtl/mem/toy_mem_model_bit.sv
+$PRJ_PATH/rtl/icache_top.sv
+$PRJ_PATH/rtl/cmn_onehot2bin2.sv
+$PRJ_PATH/rtl/icache_req_arbiter.sv
+$PRJ_PATH/rtl/icache_tag_array_ctrl.sv
+$PRJ_PATH/rtl/icache_mshr_entry.sv
+$PRJ_PATH/rtl/icache_mshr_file.sv
+$PRJ_PATH/rtl/icache_data_array_ctrl.sv
+$PRJ_PATH/rtl/pre_allocate.sv
+$PRJ_PATH/rtl/vrp_arb.sv
+$PRJ_PATH/rtl/v_en_decode.sv
+$PRJ_PATH/rtl/cmn_real_mux_onehot.sv
+$PRJ_PATH/rtl/arb_vrp.sv
+$PRJ_PATH/rtl/arb_fp.sv
 
 
-//data/usr/xuemy/try/cache_v1/icache_v1_1008_release/icache_top_tb.sv
+//$PRJ_PATH/rtl/icache_tb_top_vcs.sv
 
-/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/testbench/interface.sv
 
-/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/testbench/request.sv
-/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/testbench/checker.sv
-/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/testbench/test.sv
-/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/testbench/icache_tb_top.sv
+
+$PRJ_PATH/new_testbench/testbench/upstream_driver.sv
+$PRJ_PATH/new_testbench/testbench/downstream_driver.sv
+$PRJ_PATH/new_testbench/testbench/slave_mem.sv
+$PRJ_PATH/new_testbench/testbench/scoreboard.sv
+$PRJ_PATH/new_testbench/testbench/interface.sv
+$PRJ_PATH/new_testbench/testbench/test.sv
+$PRJ_PATH/new_testbench/testbench/tb_top_vcs.sv
 
 
 

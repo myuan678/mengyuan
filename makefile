@@ -1,29 +1,55 @@
-RTL_COMPILE_OUTPUT 	= /data/usr/xuemy/try/cache_v1/icache_v1_1008_release/work/rtl_compile
-RTL_SIM_OUTPUT      = /data/usr/xuemy/try/cache_v1/icache_v1_1008_release/work/rtl_sim
-RTL_SIM_COV         = /data/usr/xuemy/try/cache_v1/icache_v1_1008_release/work/rtl_sim_cov
-RTL_NEWSIM_OUTPUT   = /data/usr/xuemy/try/cache_v1/icache_v1_1008_release/work/rtl_new_sim
-VERILATOR           = /data/usr/xuemy/try/cache_v1/icache_v1_1008_release/work/verilator	
+CURRENT_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+export PRJ_PATH = $(CURRENT_DIR)
+
+
+RTL_COMPILE_OUTPUT 	= $(CURRENT_DIR)/work/rtl_compile
+RTL_SIM_OUTPUT      = $(CURRENT_DIR)/work/rtl_sim
+RTL_SIM_COV         = $(CURRENT_DIR)/work/rtl_sim_cov
+RTL_NEWSIM_OUTPUT   = $(CURRENT_DIR)/work/rtl_new_sim
+VERILATOR           = $(CURRENT_DIR)/work/verilator	
+
+
+TESTBENCH_DIR := $(abspath testbench)
+VCS_COMMAND			= vcs -sverilog -lca -kdb +v2k -debug_access+all -debug_all -full64 -timescale=1ns/1ns -l com.log
+VERILATOR_COMMAND   = /data/usr/liuyunqi/sw/verilator5018/bin/verilator -Wno-lint -Wno-style -CFLAGS -DVL_DEBUG=1 -DVERILATOR_COMPIL --cc --exe main.cpp --timing --sv --trace
+
+COMP_FILELIST		= $(CURRENT_DIR)/icache_compile.f
+SIM_FILELIST 		= $(CURRENT_DIR)/icache_filelist.f
+VERILATOR_FILELIST  = $(CURRENT_DIR)/icache_verilator_sim.f
 
 .PHONY: compile lint
 
+
+#compile:
+#	mkdir -p $(RTL_COMPILE_OUTPUT)
+#	cd $(RTL_COMPILE_OUTPUT) ; $(VCS_COMMAND) -f $(RTL_FILELIST) +lint=PCWM +lint=TFIPC-L +define+TOY_SIM
+
 compile:
 	mkdir -p $(RTL_COMPILE_OUTPUT)
-	cd $(RTL_COMPILE_OUTPUT) ;vcs -kdb -full64 -debug_access -sverilog -f /data/usr/xuemy/try/cache_v1/icache_v1_1008_release/icache_compile.f +lint=PCWM +lint=TFIPC-L +define+TOY_SIM
+	cd $(RTL_COMPILE_OUTPUT) ;vcs -kdb -full64 -debug_access -sverilog -f $(COMP_FILELIST) +lint=PCWM +lint=TFIPC-L +define+TOY_SIM
 
-sim:
+vcs_sim:
 	mkdir -p $(RTL_SIM_OUTPUT)
-	cd $(RTL_SIM_OUTPUT); vcs -sverilog -kdb +v2k -debug_access+all -debug_all -full64 -timescale=1ns/1ns -l com.log -f /data/usr/xuemy/try/cache_v1/icache_v1_1008_release/icache_filelist.f -R +WAVE
-new_sim:
-	mkdir -p $(RTL_NEWSIM_OUTPUT)
-	cd $(RTL_NEWSIM_OUTPUT); vcs -sverilog -kdb +v2k -debug_access+all -debug_all -full64 -timescale=1ns/1ns -l com.log -f /data/usr/xuemy/try/cache_v1/icache_v1_1008_release/icache_sim_filelist.f -R +WAVE
+	cd $(RTL_SIM_OUTPUT); $(VCS_COMMAND) -f $(SIM_FILELIST) -R +WAVE 
+
+
+sanity:
+	mkdir -p $(RTL_SIM_OUTPUT)
+	cd $(RTL_SIM_OUTPUT); $(VCS_COMMAND) -f $(SIM_FILELIST) -R +WAVE +testname=sanity
+
+conflict:
+	mkdir -p $(RTL_SIM_OUTPUT)
+	cd $(RTL_SIM_OUTPUT); $(VCS_COMMAND) -f $(SIM_FILELIST) -R +WAVE +testname=conflict
+
+trace_sim:
+	mkdir -p $(RTL_SIM_OUTPUT)
+	cd $(RTL_SIM_OUTPUT); $(VCS_COMMAND) -f $(SIM_FILELIST) -R +WAVE +testname=trace_sim
 
 
 sim_cov:
 	mkdir -p $(RTL_SIM_COV)
-	cd $(RTL_SIM_COV); vcs -sverilog -kdb +v2k -debug_access+all -debug_all -full64 -timescale=1ns/1ns -l com.log -f /data/usr/xuemy/try/cache_v1/icache_v1_1008_release/icache_filelist.f -cm line+cond+fsm+branch+tgl -R +WAVE -cm_name simv -cm_dir ./coverage
+	cd $(RTL_SIM_COV); $(VCS_COMMAND) -f /data/usr/xuemy/try/cache_v1/icache_v1_1008_release/icache_filelist.f -cm line+cond+fsm+branch+tgl -R +WAVE -cm_name simv -cm_dir ./coverage
 
-ver:
-	verilator -f icache_filelist.f
 
 # wsl compile
 comp:
@@ -33,30 +59,22 @@ comp:
 lint:
 	fde -file qc/lint.tcl -flow lint
 
-isa:
-	cd ./rv_isa_test/build ;ctest -j64
-
-
-dhry:
-	${RTL_COMPILE_OUTPUT}/simv +HEX=${RV_TEST_PATH}/hello_world/build/dhrystone_itcm.hex +DATA_HEX=${RV_TEST_PATH}/hello_world/build/dhrystone_dtcm.hex +TIMEOUT=200000 +WAVE +PC=pc_trace.log 
-
-cm:
-	${RTL_COMPILE_OUTPUT}/simv +HEX=${RV_TEST_PATH}/hello_world/build/coremark_itcm.hex +DATA_HEX=${RV_TEST_PATH}/hello_world/build/coremark_dtcm.hex  +TIMEOUT=0 +PC=pc_trace.log
 
 verdi:
-	verdi -sv -f $(SIM_FILELIST) -ssf wave.fsdb -dbdir $(RTL_COMPILE_OUTPUT)/simv.daidir
+	verdi -sv -f $(SIM_FILELIST) -ssf wave.fsdb -dbdir $(RTL_SIM_OUTPUT)/simv.daidir
 
 
-verdi_sim:
-	verdi -sv -ssf wave.fsdb -dbdir simv.daidir &
 
 #verilator:
 #	/data/usr/liuyunqi/sw/verilator5018/bin/verilator -Wno-UNSIGNED -Wno-WIDTHEXPAND -Wno-WIDTHTRUNC -Wno-ASCRANGE -Wno-IMPLICIT -Wno-PINMISSING -Wno-WIDTHCONCAT -DVERILATOR_COMPIL -f icache_filelist.f --top-module icache_top --cc --exe --timing --sv --Wall
 
+#verilator:
+#	/data/usr/liuyunqi/sw/verilator5018/bin/verilator -Wno-lint -Wno-style  -DVERILATOR_COMPIL -f /data/usr/xuemy/try/cache_v1/icache_v1_1008_release/verilator_sim.f --top-module icache_tb_top --cc --exe  --timing --sv --build main.cpp 
 verilator:
-	mkdir -p $(VERILATOR)
-	cd $(VERILATOR);  /data/usr/liuyunqi/sw/verilator5018/bin/verilator -Wno-UNSIGNED -Wno-WIDTHEXPAND -Wno-WIDTHTRUNC -Wno-ASCRANGE -Wno-IMPLICIT -Wno-PINMISSING -Wno-WIDTHCONCAT -DVERILATOR_COMPIL -f /data/usr/xuemy/try/cache_v1/icache_v1_1008_release/icache_sim_filelist.f --top-module icache_top --cc --exe --timing --sv --Wall
+	/data/usr/liuyunqi/sw/verilator5018/bin/verilator -Wno-lint -Wno-style -CFLAGS -DVL_DEBUG=1 -DVERILATOR_COMPIL -f $(VERILATOR_FILELIST) --top-module icache_tb_top --cc --exe main.cpp --timing --sv --trace   
+
+
 
 #1. make verilator
-#2. make -C obj_dir -f Vicache_top.mk
+#2. make -C obj_dir -f Vicache_tb_top.mk
 #3. ./obj_dir/Vicache_top

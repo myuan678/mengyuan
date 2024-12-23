@@ -14,16 +14,18 @@ class icache_up_transaction;
     constraint delay_range{
         delay inside{[1:10]};
     }
+    constraint tag_range{
+      tag inside {[1:6]};
+    }
+    constraint index_range{
+      index inside {[1:5]};
+    }
 
     constraint opcode_type{
       //opcode inside{[1:2]};
       opcode == 5'd2;
     }
 
-    function void print ();
-      //$display ("T=%0t %s addr=0x%0h data=0x%0h addr_a=0x%0h data_a=0x%0h addr_b=0x%0h data_b=0x%0h",
-      //         	$time, tag, addr, data, addr_a, data_a, addr_b, data_b);
-    endfunction
 
     function void display(input string msg= "");
         $display("%sDisplay Trans Messsage",msg);
@@ -33,14 +35,35 @@ class icache_up_transaction;
         $display("%10s:%20b","opcode",opcode);
         $display("%10s:%20b","txnid",txnid);
     endfunction
+
  
 
 endclass
 
 
-class up_mon_packet;
-    bit             vld;
-    bit   [255 :0]  data;
-    bit   [3   :0]  txnid;
+//class up_mon_packet;
+//    bit             vld;
+//    bit   [255 :0]  data;
+//    bit   [3   :0]  txnid;
+//    time            timestamp;
+//endclass
+
+class pld_packet;
+    import toy_pack::*;
+    req_addr_t    addr;
+    bit [255:0]   data;
+    bit [3  :0]   txnid;
+    bit [4  :0]   opcode;
+    time          send_time;
+    time          recv_time;
+
+    function copy_to(output pld_packet pld_pkt);
+        pld_pkt = new this;
+    endfunction
+
 endclass
+
+
+
+
 

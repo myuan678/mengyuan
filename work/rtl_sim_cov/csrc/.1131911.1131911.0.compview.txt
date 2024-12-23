@@ -1,6 +1,0 @@
-Command exited with non-zero status 127
-{"comelab":{"timestamp_begin":1728886137.641018493, "rt":0.00, "ut":0.00, "st":0.00}}
-{"SNPS_VCS_INTERNAL_ROOT_START_TIME": 1728886137.277857363}
-{"VCS_COMP_START_TIME": 1728886137.277857363}
-{"VCS_COMP_END_TIME": 1728886137.693003836}
-{"VCS_USER_OPTIONS": "-LDFLAGS -Wl,--no-as-needed -R -cm_dir ./coverage.vdb -cm line+cond+fsm+tgl+branch -cm_tgl mda -cm_report_bold -cm_report -cm_type text -cm_hier verilog"}

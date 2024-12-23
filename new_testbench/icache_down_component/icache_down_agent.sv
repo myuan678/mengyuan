@@ -21,7 +21,9 @@ class icache_down_agent;
 
   virtual task run();
         //#500ns;
+        $display("[DOWN_agent] start!!!!!!!!!");
         fork
+            $display("[DOWN_agent] start2!!!!!!!!!");
             down_drv.run();
             //down_mon.run();
         join_none

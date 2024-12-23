@@ -1,0 +1,8 @@
+wave.fsdb
+work/
+obj_dir/
+wave.vcd
+verdiLog
+*.fsdb
+*.vcd
+novas.*

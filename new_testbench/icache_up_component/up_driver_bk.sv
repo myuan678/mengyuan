@@ -96,3 +96,18 @@ class icache_upstream_driver;
 
 
 endclass
+
+
+                        //txnid_flag = 1;
+                        //if(mem.mem[up_req[i].addr] !== up_mon_pkt.data)begin
+                        ////data=mem.read_mem(up_req[i].addr);
+                        ////if( data!== up_vif.upstream_txdat_data)begin
+                        //    $error("[SCOREBOARD] txnid %0d compare error, addr=%h",up_mon_pkt.txnid,up_req[i].addr);
+                        //    $error("[SCOREBOARD] upstream_txdat_data=%h, txnid=%0d",up_mon_pkt.data, up_mon_pkt.txnid);
+                        //    $error("[SCOREBOARD] ref_data from model=%h, addr=%h, txnid=%0d",mem.mem[up_req[i].addr], up_req[i].addr, up_mon_pkt.txnid);
+                        //    err_cnt++;
+                        //end else begin
+                        //    $display("[SCOREBOARD] txnid %d compare pass",up_mon_pkt.txnid);
+                        //    $display("[SCOREBOARD] upstream_txdat_data=%h",up_mon_pkt.data);
+                        //    $display("[SCOREBOARD] ref_data from model=%h, addr=%h, ",mem.mem[up_req[i].addr], up_req[i].addr);
+                        //end

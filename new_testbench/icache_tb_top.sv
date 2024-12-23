@@ -14,7 +14,7 @@ initial begin
  	rst_n           = 1   ;
 	#100 rst_n      = 0   ;
     #100 rst_n      = 1   ;
-	forever #10 clk = ~clk;
+	forever #5 clk = ~clk;
 end
 
 initial begin
@@ -22,13 +22,7 @@ initial begin
     t0              = new;
     $display("Test object created.");
     t0.env0.up_agent.up_drv.up_vif         = up_vif     ;
-    //t0.env0.up_agent.up_mon.up_vif         = up_vif     ;
-    //t0.env0.up_agent.up_mon.down_vif       = down_vif   ;
-    //t0.env0.down_agent.down_mon.up_vif     = up_vif     ;
-    //t0.env0.down_agent.down_mon.down_vif   = down_vif   ;
     t0.env0.down_agent.down_drv.down_vif   = down_vif   ;
-    //t0.env0.scb.up_vif                     = up_vif     ;
-    //t0.env0.scb.down_vif                   = down_vif   ;
     t0.run();
 end
 
@@ -62,7 +56,6 @@ icache_top  dut (
         if($test$plusargs("WAVE")) begin
             $fsdbDumpfile("wave.fsdb");
             $fsdbDumpvars("+all");
-            //$fsdbDumpMDA;
             $fsdbDumpon;
     	end
     end
