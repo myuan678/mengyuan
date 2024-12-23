@@ -1,9 +1,0 @@
-*design* DebussyLib (btIdent Verdi_T-2022.06)
-Command arguments:  -lib  simv.daidir/work  -saveLevel  -elab  simv.daidir/kdb  -simflow  -simdir  simv.daidir/kdb_libs  -topfile  simv.daidir/.elabcomTopFile  -pkgfile  simv.daidir/.elabcomPkgFile  -ssz  -ssv  -ssy  -Lf  work  +disable_message+C00380+C00381  +disable_message+C00388+C00389  -SNPS_ELABCOM  -saveElab 
-
-*Warning* too few port instance connections on instance 'up_vif'
-"/data/usr/xuemy/try/cache_v1/icache_v1_1008_release//new_testbench/icache_tb_top.sv", 6: 
-
-*Warning* too few port instance connections on instance 'down_vif'
-"/data/usr/xuemy/try/cache_v1/icache_v1_1008_release//new_testbench/icache_tb_top.sv", 7: 
-Total	0 error(s),   2 warning(s)

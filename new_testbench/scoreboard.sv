@@ -40,17 +40,11 @@ class icache_scoreboard;
                     ref_mem_fifo[addr] = {};
                     ref_mem_fifo[addr].push_back(up_packet);
                     $display(" NEW CREATE REF MEM: ADDR=%h DATA=%h PUSH to FIFO by addr",addr,up_packet.data);
-                    foreach(ref_mem_fifo[addr][i])begin
-                        $display("%d,xxx[%h]=%p",$time,addr,ref_mem_fifo[addr][i]);
-                    end
                 end
                 ref_to_scb_mbx.get(up_packet);
             end
             else begin
-                #10;
-                    foreach(ref_mem_fifo['h4057][i])begin
-                        $display("%d,zzz[4057]=%p",$time,ref_mem_fifo['h4057][i]);
-                    end              
+                #10;             
             end
         end
     endtask
@@ -62,14 +56,8 @@ class icache_scoreboard;
             drv_to_scb_mbx.get(mon_packet);
             $display("[SCB COMAPRE] monitor pkt addr = %h, data=%h, txnid = %d",mon_packet.addr,mon_packet.data,mon_packet.txnid);
             mon_addr   = mon_packet.addr;
-            $display("%d,aaaa[4057]=%p",$time,ref_mem_fifo['h4057][0]);
             if(ref_mem_fifo.exists(mon_addr))begin
-                $display("%d,bbbb[4057]=%p",$time,ref_mem_fifo['h4057][0]);
                 addr_flag = 1;
-                foreach(ref_mem_fifo[mon_addr][i])begin
-                        $display("%d,yyy[%h]=%p",$time,mon_addr,ref_mem_fifo[mon_addr][i]);
-                    end
-                $display(" mem[%0h] size=%0d,data=%h",mon_addr,ref_mem_fifo[mon_addr].size(),ref_mem_fifo[mon_addr][0].data);
                 if(ref_mem_fifo[mon_addr].size()>0)begin
                     ref_mem_pkt = ref_mem_fifo[mon_addr].pop_front();
                     if(ref_mem_pkt.data == mon_packet.data)begin
@@ -123,7 +111,7 @@ class icache_scoreboard;
         $display("MISS REQ NUM      = %d",tx_req_cnt);
         $display("HIT RATE          = %0.2f%%", (up_req_cnt-tx_req_cnt)*100.0/up_req_cnt);
         if(err_cnt==0)begin
-            $display("------------------------------------TC PASSED %0d------------------------------------",$time);
+            $display("------------------------------------TC PASSED T=%0d------------------------------------",$time);
         end else begin
             $display("------------------------------------TC FAILED------------------------------------");
         end
