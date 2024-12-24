@@ -108,6 +108,35 @@ module icache_top
     logic [MSHR_ENTRY_NUM-1        :0]                  v_index_way_checkpass       ;
     logic                                               index_way_checkpass         ;
     logic [MSHR_ENTRY_NUM-1:0]                          v_mshr_entry_array_valid    ;
+        logic                                           tag_ram_en      ;
+    logic                                               tag_array0_wr_en;
+    logic [ICACHE_INDEX_WIDTH-1      :0]                tag_array0_addr ;
+    logic [ICACHE_TAG_RAM_WIDTH-1    :0]                tag_array0_din  ;
+    logic [ICACHE_TAG_RAM_WIDTH-1    :0]                tag_array0_dout ;
+    logic                                               data_ram_en     ;
+    logic                                               data_array_wr_en;
+    logic [ICACHE_INDEX_WIDTH        :0]                data_array_addr ;
+    logic [ICACHE_DATA_WIDTH/2-1     :0]                data_array0_din ;
+    logic [ICACHE_DATA_WIDTH/2-1     :0]                data_array0_dout;
+    logic [ICACHE_DATA_WIDTH/2-1     :0]                data_array1_din ;
+    logic [ICACHE_DATA_WIDTH/2-1     :0]                data_array1_dout;
+
+    icache_mem  u_icache_mem (
+        .clk               (clk             ),
+        .rst_n             (rst_n           ),
+        .tagram_en         (tag_ram_en      ),
+        .tag_array0_wr_en  (tag_array0_wr_en),
+        .tag_array0_addr   (tag_array0_addr ),
+        .tag_array0_din    (tag_array0_din  ),
+        .tag_array0_dout   (tag_array0_dout ),
+        .dataram_en        (data_ram_en     ),
+        .data_array_wr_en  (data_array_wr_en),
+        .data_array_addr   (data_array_addr ),
+        .data_array0_din   (data_array0_din ),
+        .data_array0_dout  (data_array0_dout),
+        .data_array1_din   (data_array1_din ),
+        .data_array1_dout  (data_array1_dout)
+    );
 
     icache_req_arbiter u_icache_req_arbiter (
         .clk                        (clk                        ),
@@ -153,12 +182,17 @@ module icache_top
         .v_hit_entry_done           (v_hit_entry_done           ),
         .index_way_checkpass        (index_way_checkpass        ),
         .v_mshr_entry_array         (v_mshr_entry_array         ),
-        .v_mshr_entry_array_valid   (v_mshr_entry_array_valid   ),
         .stall                      (mshr_stall                 ),
         .rd_vld                     (rd_vld                     ),
         .entry_data                 (entry_data                 ),
         .rd_pld                     (rd_pld                     ),
-        .bitmap                     (bitmap                     )
+        .bitmap                     (bitmap                     ),
+        .v_mshr_entry_array_valid   (v_mshr_entry_array_valid   ),
+        .tag_ram_en                 (tag_ram_en                 ),
+        .tag_array0_wr_en           (tag_array0_wr_en           ),
+        .tag_array0_addr            (tag_array0_addr            ),
+        .tag_array0_din             (tag_array0_din             ),
+        .tag_array0_dout            (tag_array0_dout            )
     );
 
     icache_mshr_file u_icache_mshr_file (
@@ -200,7 +234,6 @@ module icache_top
         .downstream_txrsp_opcode    (downstream_txrsp_opcode    ),
 
         .v_mshr_entry_array         (v_mshr_entry_array         ),
-        .v_mshr_entry_array_valid   (v_mshr_entry_array_valid   ),
         .linefill_ack_entry_idx     (linefill_ack_entry_idx     ),
         .linefill_done              (linefill_done              ),
 
@@ -211,6 +244,7 @@ module icache_top
         .rd_vld                     (rd_vld                     ),
         .entry_data                 (entry_data                 ),
         .rd_pld                     (rd_pld                     ),
+        .v_mshr_entry_array_valid   (v_mshr_entry_array_valid   ),
         .bitmap                     (bitmap                     )
     );
 
@@ -232,7 +266,14 @@ module icache_top
         .downstream_rxdat_pld       (downstream_rxdat_pld       ),
         .upstream_txdat_data        (upstream_txdat_data        ),
         .upstream_txdat_vld         (upstream_txdat_vld         ),
-        .upstream_txdat_txnid       (upstream_txdat_txnid       )
+        .upstream_txdat_txnid       (upstream_txdat_txnid       ),
+        .data_ram_en                (data_ram_en                ),
+        .data_array_wr_en           (data_array_wr_en           ),
+        .data_array_addr            (data_array_addr            ),
+        .data_array0_din            (data_array0_din            ),
+        .data_array0_dout           (data_array0_dout           ),
+        .data_array1_din            (data_array1_din            ),
+        .data_array1_dout           (data_array1_dout           )
     );
 
     //icache_prefetch_engine u_prefetch_engine (

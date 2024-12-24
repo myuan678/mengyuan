@@ -16,10 +16,10 @@ module vrp_arb #(
 
     generate
         for(genvar i=0; i<WIDTH; i++) begin : gen_select_onehot
-            if(i==0)begin:GEN_A
+            if(i==0)begin
                 assign select_onehot[i] = rdy_m && v_vld_s[i];
             end
-            else begin:GEN_B
+            else begin
                 //assign select_onehot[i] = select_onehot[i-1] & v_vld_s[i];
                 assign select_onehot[i] = rdy_m && v_vld_s[i] && (|v_vld_s[i-1:0]==1'b0);
             end

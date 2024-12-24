@@ -86,21 +86,31 @@ class icache_scoreboard;
     endtask
 
 
-    task counter();
+    task counter_req();
         forever begin
-            up_drv_req_mbx.get(req);
-            up_req_cnt++;
-            up_req.push_back(req);
-            $display("[SCOREBOARD] Scoreboard get up req: tag=%d, index=%d, id=%d", req.addr.tag, req.addr.index, req.txnid);
+            if (up_drv_req_mbx.num()!=0) begin
+                up_drv_req_mbx.peek(req);
+                $display("[SCB COUNTER] mbx_num=%d, T=%d",up_drv_req_mbx.num(), $time);
+                up_req_cnt++;
+                up_drv_req_mbx.get(req);
+                $display("[SCOREBOARD] Scoreboard get up req: tag=%d, index=%d, id=%d", req.addr.tag, req.addr.index, req.txnid);
+            end
+            else begin
+                #10;
+            end
+        end 
+    endtask
+    task counter_miss();
+        forever begin
             txreq_mbx.get(tx_req);
             tx_req_cnt++;
             $display("[SOCREBOARD] scoreboard get tx_req: txreq_addr = %h, txreq_txnid = %d",tx_req.txreq.addr, tx_req.txreq.txnid);
-        end 
+        end
     endtask
 
 
     task final_check();
-        $display("PACKET CNT        = %d",up_req_cnt );
+        $display("PACKET CNT        = %d", up_req_cnt );
         $display("FIRST_SEND_TIME   = %d", first_start_time);
         $display("LAST_RECV_TIME    = %d", last_recv_time);
         $display("BAND_WIDTH        = %0f", real'(up_req_cnt*32)/real'(last_recv_time-first_start_time));

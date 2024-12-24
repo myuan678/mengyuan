@@ -14,7 +14,7 @@ class icache_upstream_driver;
     mem_model                           mem             ;
     pld_packet                          scb_pld         ;
     logic [MSHR_ENTRY_INDEX_WIDTH-1:0]  txreq_entry_id_q[$],txreq_entry_id;
-    int  rxdat_delay,tx_req_cnt=0,rx_dat_cnt=0,txdata_latency;
+    int  rxdat_delay,rx_req_cnt=0,rx_dat_cnt=0,txdata_latency;
     int  id_q[$],id;
 
     typedef struct {
@@ -68,6 +68,8 @@ class icache_upstream_driver;
                 if(cfg.debug_en) $display("[UP DRV] send req pld addr =%h, txnid=%d",pld_pkt.addr,pld_pkt.txnid);
                 up_req_pkt_q.push_back(pld_pkt);
                 up_drv_req_mbx.put(pld_pkt);
+                rx_req_cnt++;
+                $display("[UP DRV] rxreq_cnt = %d", rx_req_cnt);
                 if(pkt_by_txnid.exists(pld_pkt.txnid))begin
                     pkt_by_txnid[pld_pkt.txnid].push_back(pld_pkt);
                     if(cfg.debug_en) $display("[UP DRV] PUSH one pkt to queue %d", pld_pkt.txnid);
@@ -96,9 +98,11 @@ class icache_upstream_driver;
                     if(pkt_by_txnid[txnid].size()>0)begin
                         up_pkt_pop           = pkt_by_txnid[txnid].pop_front();
                         up_pkt_pop.data      = up_vif.upstream_txdat_data     ;
+                        $display("1223_DATA1= %h",up_vif.upstream_txdat_data) ;
                         up_pkt_pop.recv_time = $time                          ;
                         up_pkt_pop.copy_to(dut_pld_pkt);
                         drv_to_scb_mbx.put(dut_pld_pkt);
+                        $display("1223_DATA2= %h",dut_pld_pkt.data);
                         ->drv_mbx_update;
                         if(cfg.debug_en) $display("[UP MONITOR] RECEIVE TX DATA = %h !!", dut_pld_pkt.data);
                         if(cfg.debug_en) $display("[UP MONITOR] RECEIVE ADDR = %h !!", dut_pld_pkt.addr);

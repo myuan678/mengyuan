@@ -1,4 +1,5 @@
 class mem_model;
+    import toy_pack::*; 
     bit[255:0] mem[bit[31:0]]; 
 
     function bit [255:0] read_mem(bit[31:0] addr);
@@ -7,7 +8,7 @@ class mem_model;
             data = mem[addr];
         end else begin
             for(int i=0;i<8;i++)begin
-                mem[addr][i*32+:32] = $urandom(addr+i);
+                mem[addr][i*32+:32] = $urandom(addr[31:ICACHE_OFFSET_WIDTH]+i);
                 data[i*32+:32] = mem[addr][i*32+:32];
             end
         end

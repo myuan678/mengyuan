@@ -19,12 +19,12 @@ module icache_data_array_ctrl
     output logic [ICACHE_UPSTREAM_DATA_WIDTH-1  :0]     upstream_txdat_data                     ,
     output logic                                        upstream_txdat_vld                      ,
     output logic [ICACHE_REQ_TXNID_WIDTH-1      :0]     upstream_txdat_txnid             ,
-    output logic                                               data_array_wr_en                        ,
-    output logic       [ICACHE_INDEX_WIDTH             :0]     data_array_addr                         ,
-    input logic       [ICACHE_DATA_WIDTH/2-1          :0]     data_array0_dout                        ,
-    input logic       [ICACHE_DATA_WIDTH/2-1          :0]     data_array1_dout                        ,
-    output logic       [ICACHE_DATA_WIDTH/2-1          :0]     data_array0_din                         ,
-    output logic       [ICACHE_DATA_WIDTH/2-1          :0]     data_array1_din                         ,
+    output logic                                        data_array_wr_en                        ,
+    output logic  [ICACHE_INDEX_WIDTH           :0]     data_array_addr                         ,
+    input  logic  [ICACHE_DATA_WIDTH/2-1        :0]     data_array0_dout                        ,
+    input  logic  [ICACHE_DATA_WIDTH/2-1        :0]     data_array1_dout                        ,
+    output logic  [ICACHE_DATA_WIDTH/2-1        :0]     data_array0_din                         ,
+    output logic  [ICACHE_DATA_WIDTH/2-1        :0]     data_array1_din                         ,
     output logic data_ram_en
     );
 

@@ -5,6 +5,7 @@ $PRJ_PATH/rtl/cmn_lead_one.sv
 $PRJ_PATH/rtl/cmn_onehot2bin.sv
 $PRJ_PATH/rtl/mem/toy_mem_model_bit.sv
 $PRJ_PATH/rtl/icache_top.sv
+$PRJ_PATH/rtl/icache_mem.sv
 $PRJ_PATH/rtl/cmn_onehot2bin2.sv
 $PRJ_PATH/rtl/icache_req_arbiter.sv
 $PRJ_PATH/rtl/icache_tag_array_ctrl.sv

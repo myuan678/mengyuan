@@ -15,10 +15,10 @@ class icache_up_transaction;
         delay inside{[1:10]};
     }
     constraint tag_range{
-      tag inside {[1:6]};
+      tag inside {[1:100]};
     }
     constraint index_range{
-      index inside {[1:5]};
+      index inside {[1:100]};
     }
 
     constraint opcode_type{

@@ -6,3 +6,5 @@ verdiLog
 *.fsdb
 *.vcd
 novas.*
+*log
+log*

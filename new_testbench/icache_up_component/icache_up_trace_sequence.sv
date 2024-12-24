@@ -1,7 +1,7 @@
 class icache_up_trace_sequence extends icache_up_base_sequence;
 
     virtual task trace_seq();
-        string trace_file_path = "/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/trace_replay/align_pc_trace_2.bin";
+        string trace_file_path = "/data/usr/xuemy/mengyuan/mengyuan/trace_replay/hitrate_trace_20run.bin";
         if($value$plusargs("trace_file=%s", trace_file_path))begin;
            $display("trace_file_path=%s", trace_file_path);
         end
@@ -21,7 +21,7 @@ class icache_up_trace_sequence extends icache_up_base_sequence;
             up_trans_trace.tag    = data_buffer.tag;  
             up_trans_trace.index  = data_buffer.index;
             up_trans_trace.offset = data_buffer.offset;
-            if(cfg.debug_en)  $display ("T=%0t [TRACE_SEQUENCE]", $time);
+            if(cfg.debug_en)  $display (" [TRACE_SEQUENCE] T=%0t, up_trans_trace= %h",  $time, data_buffer);
             drv_mbx.put(up_trans_trace);
         end
         $fclose(file);

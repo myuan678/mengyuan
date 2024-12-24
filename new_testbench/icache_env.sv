@@ -42,7 +42,8 @@ class icache_env;
             down_agent.run();
             scb.ref_mem_to_fifo();
             scb.compare_data();
-            scb.counter();
+            scb.counter_req();
+            scb.counter_miss();
         join_none
   endtask
 

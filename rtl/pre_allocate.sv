@@ -6,19 +6,18 @@
 //)(
 //    input  logic                        clk                 ,
 //    input  logic                        rst_n               ,
-//    //input  logic                        cre_tag_req_vld     ,
+//    input  logic                        cre_tag_req_vld     ,
 //    input  logic  [ENTRY_NUM-1  :0]     v_vld_in            , 
-//    //input  logic                        rdy_in              ,   
-//    //output logic  [ENTRY_NUM-1  :0]     v_rdy_out           , 
+//    input  logic                        rdy_in              ,   
+//    output logic  [ENTRY_NUM-1  :0]     v_rdy_out           , 
 //    output logic  [INDEX_WIDTH-1:0]     taken_index         , 
 //    output logic                        index_vld           ,
 //    output logic                        taken_vld    
 //);
 //    logic [ENTRY_NUM-1  :0] selected_chn                    ;
-//    //logic [ENTRY_NUM-1  :0] v_vld_reg                       ;
+//    logic [ENTRY_NUM-1  :0] v_vld_reg                       ;
 //    logic  [INDEX_WIDTH-1:0]     taken_index_pre;
 //    logic index_vld_pre;
-//    logic  [ENTRY_NUM-1  :0]     v_rdy_out ;
 //    //always_ff@(posedge clk or negedge rst_n)begin
 //    //    if(!rst_n)begin
 //    //        v_vld_reg <= 'b0;
@@ -63,13 +62,6 @@
 //endmodule
 
 
-    
-
-
-
-
-
-
 module pre_allocate 
     import toy_pack::*;
     #(
@@ -86,9 +78,9 @@ module pre_allocate
     output logic                        index_vld           ,
     output logic                        taken_vld    
 );
-    logic [ENTRY_NUM-1  :0] selected_chn                    ;
-    logic [ENTRY_NUM-1  :0] v_vld_reg                       ;
-    logic  [INDEX_WIDTH-1:0]     taken_index_pre;
+    logic [ENTRY_NUM-1   :0]  selected_chn                    ;
+    logic [ENTRY_NUM-1   :0]  v_vld_reg                       ;
+    logic  [INDEX_WIDTH-1:0]  taken_index_pre;
     logic index_vld_pre;
     //always_ff@(posedge clk or negedge rst_n)begin
     //    if(!rst_n)begin

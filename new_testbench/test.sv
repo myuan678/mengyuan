@@ -44,7 +44,7 @@ class test;
                 end
             end
         endcase
-        #10us;
+        #100us;
         env0.final_check();
         $finish;
     endtask
