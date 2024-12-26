@@ -18,7 +18,7 @@ class icache_scoreboard;
     bit [31:0]                      mon_addr        ;
     bit [31:0]                      addr            ;
     pld_packet  ref_mem_fifo[logic [31:0]] [$];
-    pld_packet  mon_packet,up_packet,ref_pkt;
+    pld_packet  mon_packet,up_tx_pkt,up_packet,ref_pkt;
     pld_packet  scb_got_pkt;
     int addr_flag,txnid_flag,tx_dat_cnt=0,up_req_cnt=0,tx_req_cnt=0,err_cnt=0,packet_cnt=0;
     int latency;
@@ -30,21 +30,15 @@ class icache_scoreboard;
 
     task ref_mem_to_fifo();
         forever begin
-            if(ref_to_scb_mbx.num()!=0)begin
-                ref_to_scb_mbx.peek(up_packet);
-                addr =up_packet.addr;
-                if(ref_mem_fifo.exists(addr))begin
-                    ref_mem_fifo[addr].push_back(up_packet);
-                    $display(" EXIST REF MEM: ADDR=%h DATA=%h PUSH to FIFO by addr",addr,up_packet.data);
-                end else begin
-                    ref_mem_fifo[addr] = {};
-                    ref_mem_fifo[addr].push_back(up_packet);
-                    $display(" NEW CREATE REF MEM: ADDR=%h DATA=%h PUSH to FIFO by addr",addr,up_packet.data);
-                end
-                ref_to_scb_mbx.get(up_packet);
-            end
-            else begin
-                #10;             
+            ref_to_scb_mbx.get(up_packet);
+            addr =up_packet.addr;
+            if(ref_mem_fifo.exists(addr))begin
+                ref_mem_fifo[addr].push_back(up_packet);
+                $display(" EXIST REF MEM: ADDR=%h DATA=%h PUSH to FIFO by addr",addr,up_packet.data);
+            end else begin
+                ref_mem_fifo[addr] = {};
+                ref_mem_fifo[addr].push_back(up_packet);
+                $display(" NEW CREATE REF MEM: ADDR=%h DATA=%h PUSH to FIFO by addr",addr,up_packet.data);
             end
         end
     endtask
@@ -53,20 +47,19 @@ class icache_scoreboard;
     task compare_data();
         pld_packet  ref_mem_pkt;
         forever begin
-            drv_to_scb_mbx.get(mon_packet);
-            $display("[SCB COMAPRE] monitor pkt addr = %h, data=%h, txnid = %d",mon_packet.addr,mon_packet.data,mon_packet.txnid);
-            mon_addr   = mon_packet.addr;
+            drv_to_scb_mbx.get(up_tx_pkt);
+            $display("[SCB COMAPRE] monitor pkt addr = %h, data=%h, txnid = %d",up_tx_pkt.addr,up_tx_pkt.data,up_tx_pkt.txnid);
+            mon_addr   = up_tx_pkt.addr;
             if(ref_mem_fifo.exists(mon_addr))begin
                 addr_flag = 1;
                 if(ref_mem_fifo[mon_addr].size()>0)begin
                     ref_mem_pkt = ref_mem_fifo[mon_addr].pop_front();
-                    if(ref_mem_pkt.data == mon_packet.data)begin
-                        $display("[SCB] COMPARE PASS: DUT Data matches REF MEM Data. Addr 0x%0h, DATA =%0h, ref=%0h,%0d", mon_packet.addr, mon_packet.data,ref_mem_pkt.data,ref_mem_fifo[mon_addr].size());
+                    if(ref_mem_pkt.data == up_tx_pkt.data)begin
+                        $display("[SCB] COMPARE PASS: DUT Data matches REF MEM Data. Addr 0x%0h, DATA =%0h, ref=%0h,%0d", up_tx_pkt.addr, up_tx_pkt.data,ref_mem_pkt.data,ref_mem_fifo[mon_addr].size());
                     end else begin
                         err_cnt++;
                         $error("[SCB] COMPARE FAIL: DUT Data dont match REF MEM Data.");
-                        $display("[SCB] ADDR = %h, DUT DATA = %h,REF DATA = %h",mon_packet.addr,mon_packet.data,ref_mem_pkt.data);
-                        //$display("[SCB] ADDR = %d, REF DATA = %h",mon_packet.addr,ref_mem_pkt.data);
+                        $display("[SCB] ADDR = %h, DUT DATA = %h,REF DATA = %h",up_tx_pkt.addr,up_tx_pkt.data,ref_mem_pkt.data);
                     end
                 end
                 else begin
@@ -76,9 +69,9 @@ class icache_scoreboard;
             else begin
                 $error("ADDR doesn't exist!!! ADDR = %h",mon_addr);
             end
-            latency = mon_packet.recv_time - mon_packet.send_time;
-            if(mon_packet.send_time < first_start_time) first_start_time = mon_packet.send_time;
-            if(mon_packet.recv_time > last_recv_time)   last_recv_time   = mon_packet.recv_time;
+            latency = up_tx_pkt.recv_time - up_tx_pkt.send_time;
+            if(up_tx_pkt.send_time < first_start_time) first_start_time = up_tx_pkt.send_time;
+            if(up_tx_pkt.recv_time > last_recv_time)   last_recv_time   = up_tx_pkt.recv_time;
             if(latency < min_latency)   min_latency = latency;
             if(latency > max_latency)   max_latency = latency;
             total_latency += latency;
@@ -88,16 +81,9 @@ class icache_scoreboard;
 
     task counter_req();
         forever begin
-            if (up_drv_req_mbx.num()!=0) begin
-                up_drv_req_mbx.peek(req);
-                $display("[SCB COUNTER] mbx_num=%d, T=%d",up_drv_req_mbx.num(), $time);
-                up_req_cnt++;
-                up_drv_req_mbx.get(req);
-                $display("[SCOREBOARD] Scoreboard get up req: tag=%d, index=%d, id=%d", req.addr.tag, req.addr.index, req.txnid);
-            end
-            else begin
-                #10;
-            end
+            up_drv_req_mbx.get(req);
+            up_req_cnt++;
+            $display("[SCOREBOARD] Scoreboard get up req: tag=%d, index=%d, id=%d", req.addr.tag, req.addr.index, req.txnid);
         end 
     endtask
     task counter_miss();
