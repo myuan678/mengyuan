@@ -6,7 +6,6 @@ class icache_up_agent;
     mem_model                       mem                     ;
     icache_up_base_sequence         up_base_seq             ;
     icache_up_trace_sequence        up_trace_seq            ;
-    //icache_up_monitor               up_mon                  ;
     event                           drv_mbx_update;
 
 
@@ -15,18 +14,12 @@ class icache_up_agent;
     mailbox                         id_mbx                  ;
     mailbox                         drv_to_scb_mbx          ;
     mailbox                         ref_to_scb_mbx          ;
-    //mailbox                         send_time_mbx           ;
-    //mailbox                         recv_time_mbx           ;
-    
-    int                             delay,txnid,index,tag   ;
-    string                          testname                ;
 
     function new();
         //init
         up_drv                  = new                   ;
         up_base_seq             = new                   ;
         up_trace_seq            = new                   ;
-        //up_mon                  = new                   ;
         up_drv_req_mbx          = new                   ;
         drv_mbx                 = new                   ;
         id_mbx                  = new                   ;

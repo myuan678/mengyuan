@@ -18,11 +18,6 @@ $PRJ_PATH/rtl/v_en_decode.sv
 $PRJ_PATH/rtl/cmn_real_mux_onehot.sv
 $PRJ_PATH/rtl/arb_vrp.sv
 $PRJ_PATH/rtl/arb_fp.sv
-//data/usr/xuemy/try/cache_v1/icache_v1_1008_release/fifo.sv
-///data/usr/xuemy/try/cache_v1/icache_v1_1008_release/icache_adapter.sv
-///data/usr/xuemy/try/cache_v1/icache_v1_1008_release/mem/toy_itcm.sv
-///data/usr/xuemy/try/cache_v1/icache_v1_1008_release/mem/toy_imem_model.sv
-//data/usr/xuemy/try/cache_v1/icache_v1_1008_release/icache_tb_top_vcs.sv
 
 $PRJ_PATH/new_testbench/icache_cfg.sv
 $PRJ_PATH/new_testbench/icache_ref_mem_model.sv
@@ -30,12 +25,10 @@ $PRJ_PATH/new_testbench/icache_up_component/icache_up_transaction.sv
 $PRJ_PATH/new_testbench/icache_up_component/icache_up_base_sequence.sv
 $PRJ_PATH/new_testbench/icache_up_component/icache_up_trace_sequence.sv
 $PRJ_PATH/new_testbench/icache_up_component/icache_up_driver.sv
-//$PRJ_PATH/new_testbench/icache_up_component/icache_up_monitor.sv
 $PRJ_PATH/new_testbench/icache_up_component/icache_up_agent.sv
 $PRJ_PATH/new_testbench/icache_down_component/icache_down_transaction.sv
 $PRJ_PATH/new_testbench/icache_down_component/icache_down_sequence.sv
 $PRJ_PATH/new_testbench/icache_down_component/icache_down_driver.sv
-$PRJ_PATH/new_testbench/icache_down_component/icache_down_monitor.sv
 $PRJ_PATH/new_testbench/icache_down_component/icache_down_agent.sv
 $PRJ_PATH/new_testbench/scoreboard.sv
 $PRJ_PATH/new_testbench/icache_interface.sv

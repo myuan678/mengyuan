@@ -29,8 +29,6 @@ class icache_up_base_sequence;
         drv_mbx.put(up_trans);
         cnt++;
         $display("counter=%d", cnt);
-        
-        //@(drv_send_done);
       end
       $display ("T=%0t [UP_SEQUENCE] Done generation of %0d transactions", $time, num);
     endtask

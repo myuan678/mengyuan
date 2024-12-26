@@ -1,7 +1,6 @@
 class icache_down_agent;
      
     icache_down_driver                down_drv       ;
-    //icache_down_monitor               down_mon       ;
     icache_down_sequence              down_seq       ;
     virtual   icache_down_if          down_vif       ;
     mailbox                           txreq_mbx      ;
@@ -23,9 +22,7 @@ class icache_down_agent;
         //#500ns;
         $display("[DOWN_agent] start!!!!!!!!!");
         fork
-            $display("[DOWN_agent] start2!!!!!!!!!");
             down_drv.run();
-            //down_mon.run();
         join_none
   endtask
 

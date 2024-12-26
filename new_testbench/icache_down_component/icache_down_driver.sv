@@ -1,43 +1,28 @@
 class icache_down_driver;
     import toy_pack::*;
     virtual   icache_down_if            down_vif        ;
+    icache_cfg                          cfg             ;
     mailbox                             txreq_mbx       ;
     mem_model                           mem             ;
-    icache_down_transaction             item            ;
-    icache_cfg                          cfg             ;
-
-    icache_down_transaction             down_trans,down_trans_q[$], got_down_trans,copy_item;
-    int                                 rxdat_delay=10,tx_req_cnt=0,number=0,rxdata_latency;
+    icache_down_transaction             recv_down_trans ;
+    icache_down_transaction             send_down_trans,down_trans_q[$], copy_trans;
+    int                                 rxdat_delay=10,tx_req_cnt=0;
 
     function new();
         cfg = new();  
     endfunction
-
-    typedef struct {
-        int id;    
-        time timestamp; 
-    } time_t;
-
-    time_t recv_txreq_time;
-    time_t send_rxdat_time;
-    time_t recv_txreq_time_q[$];
 
     task recv_tx_req();
         forever begin  //receive tx req
             do begin
                 @(posedge down_vif.clk);
             end while(!(down_vif.downstream_txreq_rdy && down_vif.downstream_txreq_vld));
-                item = new;
-                item.txreq    = down_vif.downstream_txreq_pld;
-                item.entry_id = down_vif.downstream_txreq_entry_id;
-                //mem.read_mem(item.txreq.addr);
-                recv_txreq_time.id = item.txreq.txnid;
-                recv_txreq_time.timestamp = $time;
-                recv_txreq_time_q.push_back(recv_txreq_time);
-                down_trans_q.push_back(item);
-                //tx_req_cnt++;
-                item.copy_to(copy_item);
-                txreq_mbx.put(copy_item); 
+                recv_down_trans = new;
+                recv_down_trans.txreq    = down_vif.downstream_txreq_pld       ;
+                recv_down_trans.entry_id = down_vif.downstream_txreq_entry_id  ;
+                down_trans_q.push_back(recv_down_trans);
+                recv_down_trans.copy_to(copy_trans);
+                txreq_mbx.put(copy_trans); 
                 tx_req_cnt++;
                 if(down_trans_q.size()>1)begin
                     down_trans_q.shuffle();
@@ -55,14 +40,14 @@ class icache_down_driver;
 
             rxdat_delay     = $urandom_range(1, 2);
             repeat(rxdat_delay)@(posedge down_vif.clk);
-            down_trans = down_trans_q.pop_front();
+            send_down_trans = down_trans_q.pop_front();
             down_vif.downstream_rxdat_vld                            <= 1;
-            down_vif.downstream_rxdat_pld.downstream_rxdat_opcode    <= down_trans.txreq.opcode;
-            down_vif.downstream_rxdat_pld.downstream_rxdat_txnid     <= down_trans.txreq.txnid;
-            //down_vif.downstream_rxdat_pld.downstream_rxdat_data      <= down_trans.txreq.addr;
-            down_vif.downstream_rxdat_pld.downstream_rxdat_data      <= mem.read_mem(down_trans.txreq.addr);
-            down_vif.downstream_rxdat_pld.downstream_rxdat_entry_idx <= down_trans.entry_id;
-            if(cfg.debug_en) $display("[[DOWN_DRV] send RXDATA] mem[%0h]=%h, txnid=%0h",down_trans.txreq.addr,mem.mem[down_trans.txreq.addr], down_trans.txreq.txnid,$time);
+            down_vif.downstream_rxdat_pld.downstream_rxdat_opcode    <= send_down_trans.txreq.opcode;
+            down_vif.downstream_rxdat_pld.downstream_rxdat_txnid     <= send_down_trans.txreq.txnid;
+            //down_vif.downstream_rxdat_pld.downstream_rxdat_data      <= send_down_trans.txreq.addr;
+            down_vif.downstream_rxdat_pld.downstream_rxdat_data      <= mem.read_mem(send_down_trans.txreq.addr);
+            down_vif.downstream_rxdat_pld.downstream_rxdat_entry_idx <= send_down_trans.entry_id;
+            if(cfg.debug_en) $display("[[DOWN_DRV] send RXDATA] mem[%0h]=%h, txnid=%0h",send_down_trans.txreq.addr,mem.mem[send_down_trans.txreq.addr], send_down_trans.txreq.txnid,$time);
             do begin
                 @(posedge down_vif.clk);
             end while(!(down_vif.downstream_rxdat_vld && down_vif.downstream_rxdat_rdy));

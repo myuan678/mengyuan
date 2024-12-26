@@ -41,13 +41,6 @@ class icache_up_transaction;
 endclass
 
 
-//class up_mon_packet;
-//    bit             vld;
-//    bit   [255 :0]  data;
-//    bit   [3   :0]  txnid;
-//    time            timestamp;
-//endclass
-
 class pld_packet;
     import toy_pack::*;
     req_addr_t    addr;

@@ -35,7 +35,7 @@ vcs_sim:
 
 sanity:
 	mkdir -p $(RTL_SIM_OUTPUT)
-	cd $(RTL_SIM_OUTPUT); $(VCS_COMMAND) -f $(SIM_FILELIST) -R +WAVE +testname=sanity
+	cd $(RTL_SIM_OUTPUT); $(VCS_COMMAND) -f $(SIM_FILELIST) -R +WAVE +testname=sanity 
 
 conflict:
 	mkdir -p $(RTL_SIM_OUTPUT)
