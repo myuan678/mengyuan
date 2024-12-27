@@ -46,10 +46,12 @@ trace_sim:
 	cd $(RTL_SIM_OUTPUT); $(VCS_COMMAND) -f $(SIM_FILELIST) -R +WAVE +testname=trace_sim
 
 
+#sim_cov:
+#	mkdir -p $(RTL_SIM_COV)
+#	cd $(RTL_SIM_COV); $(VCS_COMMAND) -f $(SIM_FILELIST) -cm line+cond+fsm+branch+tgl -R +WAVE +testname=sanity -cm_name simv -cm_dir ./coverage
 sim_cov:
 	mkdir -p $(RTL_SIM_COV)
-	cd $(RTL_SIM_COV); $(VCS_COMMAND) -f /data/usr/xuemy/try/cache_v1/icache_v1_1008_release/icache_filelist.f -cm line+cond+fsm+branch+tgl -R +WAVE -cm_name simv -cm_dir ./coverage
-
+	cd $(RTL_SIM_COV); $(VCS_COMMAND) -f $(SIM_FILELIST) -R +testname=sanity -cm line -cm_name simv -cm_dir ./coverage
 
 # wsl compile
 comp:

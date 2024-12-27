@@ -27,7 +27,7 @@ class test;
                 end
             end
             "trace_sim":begin   
-                env0.up_agent.up_trace_seq.trace_seq();
+                env0.up_agent.up_trace_seq.base_seq;
             end
             "conflict":begin
                 //for(int i=1;i<30;i++)begin

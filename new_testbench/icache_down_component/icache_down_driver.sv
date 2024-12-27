@@ -20,8 +20,8 @@ class icache_down_driver;
                 recv_down_trans = new;
                 recv_down_trans.txreq    = down_vif.downstream_txreq_pld       ;
                 recv_down_trans.entry_id = down_vif.downstream_txreq_entry_id  ;
-                down_trans_q.push_back(recv_down_trans);
                 recv_down_trans.copy_to(copy_trans);
+                down_trans_q.push_back(copy_trans);
                 txreq_mbx.put(copy_trans); 
                 tx_req_cnt++;
                 if(down_trans_q.size()>1)begin
