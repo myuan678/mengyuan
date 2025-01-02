@@ -30,7 +30,7 @@ compile:
 
 vcs_sim:
 	mkdir -p $(RTL_SIM_OUTPUT)
-	cd $(RTL_SIM_OUTPUT); $(VCS_COMMAND) -f $(SIM_FILELIST) -R +WAVE 
+	cd $(RTL_SIM_OUTPUT); $(VCS_COMMAND) -f $(SIM_FILELIST) -R +WAVE -cm line+cond+fsm+branch+tgl -cm_name simv -cm_dir ./coverage
 
 
 sanity:
@@ -49,9 +49,12 @@ trace_sim:
 #sim_cov:
 #	mkdir -p $(RTL_SIM_COV)
 #	cd $(RTL_SIM_COV); $(VCS_COMMAND) -f $(SIM_FILELIST) -cm line+cond+fsm+branch+tgl -R +WAVE +testname=sanity -cm_name simv -cm_dir ./coverage
-sim_cov:
+random_cov:
 	mkdir -p $(RTL_SIM_COV)
-	cd $(RTL_SIM_COV); $(VCS_COMMAND) -f $(SIM_FILELIST) -R +testname=sanity -cm line -cm_name simv -cm_dir ./coverage
+	cd $(RTL_SIM_COV); $(VCS_COMMAND) -f $(SIM_FILELIST) -R +testname=sanity -cm line+cond+fsm+branch+tgl -cm_name simv -cm_dir ./sanity/coverage
+trace_cov:
+	mkdir -p $(RTL_SIM_COV)
+	cd $(RTL_SIM_COV); $(VCS_COMMAND) -f $(SIM_FILELIST) -R +testname=trace_sim -cm line+cond+fsm+branch+tgl -cm_name simv -cm_dir ./trace/coverage
 
 # wsl compile
 comp:
