@@ -22,12 +22,12 @@ class test;
         end
         case(testname)
             "sanity":begin
-                for(int i=1; i<4; i++)begin
-                    env0.up_agent.up_base_seq.base_seq(5);
+                for(int i=1; i<10; i++)begin
+                    env0.up_agent.up_base_seq.base_seq(100);
                 end
             end
             "trace_sim":begin   
-                env0.up_agent.up_trace_seq.base_seq;
+                env0.up_agent.up_trace_seq.base_seq(1);
             end
             "conflict":begin
                 //for(int i=1;i<30;i++)begin
@@ -44,7 +44,7 @@ class test;
                 end
             end
         endcase
-        #100us;
+        #3000us;
         env0.final_check();
         $finish;
     endtask

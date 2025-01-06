@@ -15,7 +15,7 @@ def log_to_bin(input_file, output_file):
     print(f"completed! binfile: {output_file}")
 
 
-input_file = '/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/trace_replay/hitrate_trace.log'
-output_file = 'hitrate_trace.bin'
+input_file = '/data/usr/xuemy/mengyuan/mengyuan/trace_replay/hitrate_trace.log'
+output_file = 'pc_trace.bin'
 
 log_to_bin(input_file, output_file)

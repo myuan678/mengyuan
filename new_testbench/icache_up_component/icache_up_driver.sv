@@ -12,7 +12,7 @@ class icache_upstream_driver;
     icache_up_transaction               up_trans        ;
     mem_model                           mem             ;
     int  rx_req_cnt=0;
-    int  id_q[$],id;
+    int  id_q[$],id,copy_id;
     pld_packet up_pkt,ref_up_pkt;
     pld_packet up_req_pkt,up_req_pkt_q[$];
     pld_packet up_pkt_pop,ref_pld_pkt,dut_pld_pkt;
@@ -22,6 +22,12 @@ class icache_upstream_driver;
     function new();
         cfg = new();  
     endfunction
+    //class txnid_copy;
+    //    int txnid;  
+    //    function void copy_to(output txnid_copy copy_txnid);
+    //        copy_txnid = new this;
+    //    endfunction
+    //endclass
     
     task send_upstream_req();
         forever begin
@@ -39,7 +45,7 @@ class icache_upstream_driver;
                 up_vif.upstream_rxreq_pld.addr.offset  <= up_trans.offset;
                 up_vif.upstream_rxreq_pld.opcode       <= up_trans.opcode;
                 up_vif.upstream_rxreq_pld.txnid        <= id;
-                if(cfg.debug_en) $display("[UP DRV] T=%0d send_upstream_req: tag=%d, index=%d, txnid=%d, opcode=%d",$time, up_trans.tag, up_trans.index, id, up_trans.opcode);
+                if(cfg.debug_en) $display("[UP DRV] T=%0d send_upstream_req: addr = %h,tag=%d, index=%d, txnid=%d, opcode=%d",$time, {up_trans.tag, up_trans.index,up_trans.offset},up_trans.tag, up_trans.index, id, up_trans.opcode);
                 do begin
                     @(posedge up_vif.clk);
                 end while(!(up_vif.upstream_rxreq_rdy && up_vif.upstream_rxreq_vld));
@@ -51,7 +57,7 @@ class icache_upstream_driver;
                 up_req_pkt.send_time     = $time                            ;
                 up_req_pkt.recv_time     = 'd0                              ;
                 up_req_pkt.copy_to(up_pkt);
-                if(cfg.debug_en) $display("[UP DRV] send req pld addr =%h, txnid=%d",up_pkt.addr,up_pkt.txnid);
+                if(cfg.debug_en) $display("[UP DRV] send req pld addr =%h, txnid=%d,Time=%d",up_pkt.addr,up_pkt.txnid,$realtime);
                 up_req_pkt_q.push_back(up_pkt);
                 up_drv_req_mbx.put(up_pkt);
                 rx_req_cnt++;
@@ -79,6 +85,7 @@ class icache_upstream_driver;
             @(posedge up_vif.clk);
             if(up_vif.upstream_txdat_vld===1)begin
                 int txnid = up_vif.upstream_txdat_txnid;
+                //#1ns;
                 id_mbx.put(txnid);
                 if(pkt_by_txnid.exists(txnid))begin
                     if(pkt_by_txnid[txnid].size()>0)begin
@@ -88,12 +95,11 @@ class icache_upstream_driver;
                         up_pkt_pop.copy_to(dut_pld_pkt)                       ;
                         drv_to_scb_mbx.put(dut_pld_pkt)                       ;
                         ->drv_mbx_update;
-                        if(cfg.debug_en) $display("[UP MONITOR] RECEIVE TX DATA = %h !!", dut_pld_pkt.data);
+                        if(cfg.debug_en) $display("[UP MONITOR] RECEIVE TX DATA = %h, ADDR = %h!!, Time= %d", dut_pld_pkt.data, dut_pld_pkt.addr, $realtime);
                         if(cfg.debug_en) $display("[UP MONITOR] RECEIVE ADDR = %h !!", dut_pld_pkt.addr);
                     end
                 end
-            end
-                      
+            end             
         end
     endtask
 
@@ -133,7 +139,7 @@ class icache_upstream_driver;
                 foreach(id_q[i])begin
                     if(id_q[i]==rec_id)begin
                         $error("[UP_DRV] REC ID=%0d, but it already in queue",rec_id);
-                        $finish;
+                        //$finish;
                     end
                 end
             end

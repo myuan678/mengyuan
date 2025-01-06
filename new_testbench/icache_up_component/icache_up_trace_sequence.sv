@@ -1,7 +1,7 @@
 class icache_up_trace_sequence extends icache_up_base_sequence;
 
     virtual task base_seq(int num=10);
-        string trace_file_path = "/data/usr/xuemy/mengyuan/mengyuan/trace_replay/hitrate_trace_20run.bin";
+        string trace_file_path = "/data/usr/xuemy/mengyuan/mengyuan/trace_replay/pc_trace.bin";
         if($value$plusargs("trace_file=%s", trace_file_path))begin;
            $display("trace_file_path=%s", trace_file_path);
         end

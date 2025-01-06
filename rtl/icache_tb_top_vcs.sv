@@ -76,7 +76,7 @@ module icache_tb_top(
 // trace log 
 //========================================================
     initial begin
-        file = $fopen("/data/usr/xuemy/try/cache_v1/icache_v1_1008_release/trace_replay/hitrate_trace_20run.bin", "rb");
+        file = $fopen("/data/usr/xuemy/mengyuan/mengyuan/trace_replay/hitrate_trace_20run.bin", "rb");
         if (file == 0) begin
             $display("Error: Cannot open file.");
             $finish;
@@ -152,7 +152,7 @@ module icache_tb_top(
 // test case
 //========================================================
     initial begin
-        int testcase = 2;
+        int testcase = 3;
         int delay       ;
         int tag         ;
         int index       ;
@@ -205,9 +205,9 @@ module icache_tb_top(
                 end
             end
             3:begin  //index-way conflict
-                for(int i=1;i<100;i++)begin
-                    tag   = $urandom_range(1,10);
-                    index = $urandom_range(1,10);
+                for(int i=1;i<100000;i++)begin
+                    tag   = $urandom_range(1,100);
+                    index = $urandom_range(1,100);
                     txnid = i%16;
                     delay = $urandom_range(1,3);
                     //@(posedge clk);

@@ -15,7 +15,7 @@ class mem_model;
             data = mem[addr];
         end else begin
             for(int i=0;i<8;i++)begin                
-                mem[addr][i*32+:32] = $urandom(seed);
+                mem[addr][i*32+:32] = $urandom(seed+addr);
                 data[i*32+:32] = mem[addr][i*32+:32];
             end
         end

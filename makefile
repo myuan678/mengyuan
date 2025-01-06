@@ -11,6 +11,7 @@ VERILATOR           = $(CURRENT_DIR)/work/verilator
 
 TESTBENCH_DIR := $(abspath testbench)
 VCS_COMMAND			= vcs -sverilog -lca -kdb +v2k -debug_access+all -debug_all -full64 -timescale=1ns/1ns -l com.log
+WSL_VCS_COMMAND     = vcs -full64 -cpp g++-4.8 -cc gcc-4.8 -LDFLAGS -Wl,--no-as-needed -kdb -lca -full64 -debug_access -sverilog -l com.log
 VERILATOR_COMMAND   = /data/usr/liuyunqi/sw/verilator5018/bin/verilator -Wno-lint -Wno-style -CFLAGS -DVL_DEBUG=1 -DVERILATOR_COMPIL --cc --exe main.cpp --timing --sv --trace
 
 COMP_FILELIST		= $(CURRENT_DIR)/icache_compile.f
@@ -36,6 +37,10 @@ vcs_sim:
 sanity:
 	mkdir -p $(RTL_SIM_OUTPUT)
 	cd $(RTL_SIM_OUTPUT); $(VCS_COMMAND) -f $(SIM_FILELIST) -R +WAVE +testname=sanity 
+
+wsl_sanity:
+	mkdir -p $(RTL_SIM_OUTPUT)
+	cd $(RTL_SIM_OUTPUT); $(WSL_VCS_COMMAND) -f $(SIM_FILELIST) -R +WAVE +testname=sanity 
 
 conflict:
 	mkdir -p $(RTL_SIM_OUTPUT)

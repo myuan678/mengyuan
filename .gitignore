@@ -1,5 +1,7 @@
 wave.fsdb
-work/
+work/*
+work/rtl_sim_cov/simv*
+work/rtl_sim_cov/simv.daidir
 obj_dir/
 wave.vcd
 verdiLog

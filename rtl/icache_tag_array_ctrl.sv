@@ -55,12 +55,10 @@ module icache_tag_array_ctrl
     logic                                wr_tag_buf_vld                         ;
     logic                                wr_tag_buf_rdy                         ;
     logic [ICACHE_TAG_RAM_WIDTH/2-1:0]   dout_buf                               ;
-    pc_req_t                             cre_tag_req_pld                        ;
     logic [MSHR_ENTRY_NUM-1        :0]   v_index_way_bit_keep[MSHR_ENTRY_NUM-1:0];
     logic [ICACHE_INDEX_WIDTH-1    :0]   wr_tag_buf_index                       ;
     logic                                lru_pick_tmp                           ;
     logic                                pre_check_pass                         ;
-    logic [MSHR_ENTRY_NUM-1        :0]   bitmap_keep                            ;
     pc_req_t                                     req_pld;
     logic                                        req_vld;
 
@@ -180,8 +178,9 @@ module icache_tag_array_ctrl
     always_comb begin
         mshr_update_en = 1'b0;
         if(req_vld)begin
-            if(req_pld.opcode== DOWNSTREAM_OPCODE) mshr_update_en = 1'b0;
-            else                                   mshr_update_en = 1'b1;
+            //if(req_pld.opcode== DOWNSTREAM_OPCODE) mshr_update_en = 1'b0;
+            //else                                   mshr_update_en = 1'b1;
+            mshr_update_en = 1'b1;
         end
     end
 
@@ -241,26 +240,26 @@ module icache_tag_array_ctrl
 
 
 
-    logic [63:0] counter_hit;
-    logic [63:0] counter_req;
-    always_ff@(posedge clk or negedge rst_n) begin
-        if(!rst_n) begin
-            counter_req <= 64'd0;
-        end
-        else begin
-            if(cre_tag_req_vld) counter_req <= counter_req + 64'd1;
-            else                counter_req <= counter_req;
-        end
-    end
-    always_ff@(posedge clk or negedge rst_n) begin
-        if(!rst_n) begin
-            counter_hit <= 64'd0;
-        end
-        else begin
-            if(|tag_hit) counter_hit <= counter_hit + 64'd1;
-            else         counter_hit <= counter_hit;
-        end
-    end
+    //logic [63:0] counter_hit;
+    //logic [63:0] counter_req;
+    //always_ff@(posedge clk or negedge rst_n) begin
+    //    if(!rst_n) begin
+    //        counter_req <= 64'd0;
+    //    end
+    //    else begin
+    //        if(cre_tag_req_vld) counter_req <= counter_req + 64'd1;
+    //        else                counter_req <= counter_req;
+    //    end
+    //end
+    //always_ff@(posedge clk or negedge rst_n) begin
+    //    if(!rst_n) begin
+    //        counter_hit <= 64'd0;
+    //    end
+    //    else begin
+    //        if(|tag_hit) counter_hit <= counter_hit + 64'd1;
+    //        else         counter_hit <= counter_hit;
+    //    end
+    //end
         
 
 endmodule

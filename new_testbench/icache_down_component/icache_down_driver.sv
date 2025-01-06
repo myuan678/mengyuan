@@ -38,7 +38,7 @@ class icache_down_driver;
                 @(posedge down_vif.clk);
             end
 
-            rxdat_delay     = $urandom_range(1, 2);
+            rxdat_delay     = $urandom_range(1, 10);
             repeat(rxdat_delay)@(posedge down_vif.clk);
             send_down_trans = down_trans_q.pop_front();
             down_vif.downstream_rxdat_vld                            <= 1;

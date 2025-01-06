@@ -34,11 +34,11 @@ class icache_scoreboard;
             addr =up_packet.addr;
             if(ref_mem_fifo.exists(addr))begin
                 ref_mem_fifo[addr].push_back(up_packet);
-                $display(" EXIST REF MEM: ADDR=%h DATA=%h PUSH to FIFO by addr",addr,up_packet.data);
+                $display(" %d,EXIST REF MEM: ADDR=%h DATA=%h PUSH to FIFO by addr",$realtime,addr,up_packet.data);
             end else begin
                 ref_mem_fifo[addr] = {};
                 ref_mem_fifo[addr].push_back(up_packet);
-                $display(" NEW CREATE REF MEM: ADDR=%h DATA=%h PUSH to FIFO by addr",addr,up_packet.data);
+                $display(" %d,NEW CREATE REF MEM: ADDR=%h DATA=%h PUSH to FIFO by addr",$realtime,addr,up_packet.data);
             end
         end
     endtask
@@ -50,6 +50,7 @@ class icache_scoreboard;
             drv_to_scb_mbx.get(up_tx_pkt);
             $display("[SCB COMAPRE] monitor pkt addr = %h, data=%h, txnid = %d",up_tx_pkt.addr,up_tx_pkt.data,up_tx_pkt.txnid);
             mon_addr   = up_tx_pkt.addr;
+            //#1ns;
             if(ref_mem_fifo.exists(mon_addr))begin
                 addr_flag = 1;
                 if(ref_mem_fifo[mon_addr].size()>0)begin
@@ -67,7 +68,7 @@ class icache_scoreboard;
                 end
             end
             else begin
-                $error("ADDR doesn't exist!!! ADDR = %h",mon_addr);
+                $error("%d:ADDR doesn't exist!!! ADDR = %h",$realtime,mon_addr);
             end
             latency = up_tx_pkt.recv_time - up_tx_pkt.send_time;
             if(up_tx_pkt.send_time < first_start_time) first_start_time = up_tx_pkt.send_time;
