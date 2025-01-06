@@ -152,7 +152,7 @@ end
 always_ff@(posedge clk or negedge rst_n) begin
     if(~rst_n)                                               e_state_done <= 1'b0;
     else if(linefill_data_done | (allocate_en && snp_type) | state_rd_dataram_sent ) e_state_done <= 1'b1;
-    else                                                     e_state_done <= 1'b0;
+    //else                                                     e_state_done <= 1'b0;
 end
 //assign release_en = linefill_data_done & linefill_sent & state_rd_dataram_sent;
 assign release_en = linefill_data_done & state_rd_dataram_sent;
